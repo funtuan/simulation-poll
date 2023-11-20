@@ -174,9 +174,12 @@ export default {
     qChartData () {
       const sum = this.simulateData.reduce((acc, cur) => acc + cur.q, 0)
       const avg = sum / this.m
+      const std = Math.sqrt(
+        this.simulateData.reduce((acc, cur) => acc + Math.pow(cur.q - avg, 2), 0) / this.m
+      )
 
-      const maxDiff = avg + 0.05
-      const minDiff = avg - 0.05
+      const maxDiff = avg + std * 4
+      const minDiff = avg - std * 4
       const interval = this.interval
 
       const labels = Array.from(
@@ -207,9 +210,12 @@ export default {
     pChartData () {
       const sum = this.simulateData.reduce((acc, cur) => acc + cur.p, 0)
       const avg = sum / this.m
+      const std = Math.sqrt(
+        this.simulateData.reduce((acc, cur) => acc + Math.pow(cur.p - avg, 2), 0) / this.m
+      )
 
-      const maxDiff = avg + 0.05
-      const minDiff = avg - 0.05
+      const maxDiff = avg + std * 4
+      const minDiff = avg - std * 4
       const interval = this.interval
 
       const labels = Array.from(
@@ -240,9 +246,12 @@ export default {
     diffChartData () {
       const sum = this.simulateData.reduce((acc, cur) => acc + cur.diff, 0)
       const avg = sum / this.m
+      const std = Math.sqrt(
+        this.simulateData.reduce((acc, cur) => acc + Math.pow(cur.diff - avg, 2), 0) / this.m
+      )
 
-      const maxDiff = avg + 0.1
-      const minDiff = avg - 0.1
+      const maxDiff = avg + std * 4
+      const minDiff = avg - std * 4
       const interval = this.interval
 
       const labels = Array.from(
