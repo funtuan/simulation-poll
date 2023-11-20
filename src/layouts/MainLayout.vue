@@ -57,6 +57,11 @@ const linksData = [
   {
     title: '對比式比較（尚未開放）',
     icon: 'school'
+  },
+  {
+    title: 'Github（FunTuan）',
+    icon: 'link',
+    link: 'https://github.com/funtuan/simulation-poll'
   }
 ]
 
