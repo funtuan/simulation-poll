@@ -44,6 +44,7 @@
         <div class="col">
           <LineChartGenerator
             :chart-data="qChartData"
+            :width="chartWidth"
             />
         </div>
       </div>
@@ -51,6 +52,7 @@
         <div class="col">
           <LineChartGenerator
             :chart-data="pChartData"
+            :width="chartWidth"
             />
         </div>
       </div>
@@ -59,6 +61,7 @@
           <div class="text-h7">模擬 q > p 佔比：{{ (diffPercentage * 100).toFixed(2) }}%（大於 95% 代表超過誤差範圍）</div>
           <LineChartGenerator
             :chart-data="diffChartData"
+            :width="chartWidth"
             />
         </div>
       </div>
@@ -141,7 +144,8 @@ export default {
           p: 38.20,
           n: 1484,
         }
-      ]
+      ],
+      chartWidth: this.$q.screen.width > 600 ? 600 : this.$q.screen.width - 100,
     }
   },
   computed: {
