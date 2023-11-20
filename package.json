@@ -1,8 +1,8 @@
 {
   "name": "simulation-poll",
   "version": "0.0.1",
-  "description": "as title",
-  "productName": "Simulation Poll",
+  "description": "讓3%？讓6%？模擬民調就知道",
+  "productName": "模擬民調 Simulation Poll",
   "author": "FunTuan <hank85627@gmail.com>",
   "private": true,
   "scripts": {
