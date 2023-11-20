@@ -1,6 +1,6 @@
-# Simulation Poll (simulation-poll)
+# Simulation Poll
 
-as title
+因藍白合議題激起對統計的好奇心，又因統計學一竅不通，所以想透過模擬的方式來了解統計學的基本概念。
 
 ## Install the dependencies
 ```bash
