@@ -50,7 +50,7 @@
       </div>
       <div class="row">
         <div class="col">
-          <div class="text-h7">模擬 q > p 佔比：{{ (diffPercentage * 100).toFixed(2) }}%（大於 95% 代表超過誤差範圍）</div>
+          <div class="text-h7">模擬 {{this.q > this.p ? 'q > p' : 'p > q'}} 佔比：{{ (diffPercentage * 100).toFixed(2) }}%（大於 95% 代表超過誤差範圍）</div>
           <LineChartGenerator
             :chart-data="diffChartData"
             :width="chartWidth"
