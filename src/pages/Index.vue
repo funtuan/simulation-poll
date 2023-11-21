@@ -43,15 +43,7 @@
       <div class="row">
         <div class="col">
           <LineChartGenerator
-            :chart-data="qChartData"
-            :width="chartWidth"
-            />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <LineChartGenerator
-            :chart-data="pChartData"
+            :chart-data="allChartData"
             :width="chartWidth"
             />
         </div>
@@ -171,11 +163,16 @@ export default {
       }
       return simulateData
     },
-    qChartData () {
-      const sum = this.simulateData.reduce((acc, cur) => acc + cur.q, 0)
-      const avg = sum / this.m
+    allChartData () {
+      const qSum = this.simulateData.reduce((acc, cur) => acc + cur.q, 0)
+      const pSum = this.simulateData.reduce((acc, cur) => acc + cur.p, 0)
+      const avg = (qSum + pSum) / (this.m * 2)
       const std = Math.sqrt(
-        this.simulateData.reduce((acc, cur) => acc + Math.pow(cur.q - avg, 2), 0) / this.m
+        (
+          this.simulateData.reduce((acc, cur) => acc + Math.pow(cur.q - avg, 2), 0) +
+          this.simulateData.reduce((acc, cur) => acc + Math.pow(cur.p - avg, 2), 0)
+        )
+         / (this.m * 2)
       )
 
       const maxDiff = avg + Math.max(std * 4, 0.05)
@@ -188,59 +185,39 @@ export default {
         )
 
       // 計算每個區間的數量
-      const count = {}
+      const qCount = {}
       for (let i = 0; i < this.m; i++) {
         const label = Math.round(this.simulateData[i].q / interval) * interval
-        if (count[label] === undefined) {
-          count[label] = 1
+        if (qCount[label] === undefined) {
+          qCount[label] = 1
         } else {
-          count[label] += 1
+          qCount[label] += 1
         }
       }
-
-      return {
-        labels: labels.map((diff) => `${Math.round(diff * 10000) / 100}%`),
-        datasets: [{
-          label: 'q 實際民調模擬情況',
-          data: labels.map((label) => count[label] || 0),
-          borderColor: 'red',
-        }],
-      }
-    },
-    pChartData () {
-      const sum = this.simulateData.reduce((acc, cur) => acc + cur.p, 0)
-      const avg = sum / this.m
-      const std = Math.sqrt(
-        this.simulateData.reduce((acc, cur) => acc + Math.pow(cur.p - avg, 2), 0) / this.m
-      )
-
-      const maxDiff = avg + Math.max(std * 4, 0.05)
-      const minDiff = avg - Math.max(std * 4, 0.05)
-      const interval = this.interval
-
-      const labels = Array.from(
-          { length: Math.round((maxDiff - minDiff) / interval) }, 
-          (_, i) => Math.round((minDiff + (i * interval)) / interval) * interval
-        )
-
-      // 計算每個區間的數量
-      const count = {}
+      const pCount = {}
       for (let i = 0; i < this.m; i++) {
         const label = Math.round(this.simulateData[i].p / interval) * interval
-        if (count[label] === undefined) {
-          count[label] = 1
+        if (pCount[label] === undefined) {
+          pCount[label] = 1
         } else {
-          count[label] += 1
+          pCount[label] += 1
         }
       }
 
       return {
         labels: labels.map((diff) => `${Math.round(diff * 10000) / 100}%`),
-        datasets: [{
-          label: 'p 實際民調模擬情況',
-          data: labels.map((label) => count[label] || 0),
-          borderColor: 'blue',
-        }],
+        datasets: [
+          {
+            label: 'q 實際民調模擬情況',
+            data: labels.map((label) => qCount[label] || 0),
+            borderColor: '#00dddd',
+          },
+          {
+            label: 'p 實際民調模擬情況',
+            data: labels.map((label) => pCount[label] || 0),
+            borderColor: '#0000dd',
+          },
+        ],
       }
     },
     diffChartData () {
@@ -274,14 +251,14 @@ export default {
         labels: labels.map((diff) => `${Math.round(diff * 10000) / 100}%`),
         datasets: [
           {
-            label: 'q > p',
+            label: 'q - p > 0',
             data: labels.map((label) => label >= 0 ? count[label] || 0 : null),
-            borderColor: 'red',
+            borderColor: '#00dddd',
           },
           {
-            label: 'q < p',
+            label: 'q - p < 0',
             data: labels.map((label) => label < 0 ? count[label] || 0 : null),
-            borderColor: 'blue',
+            borderColor: '#0000dd',
           },
         ],
       }
