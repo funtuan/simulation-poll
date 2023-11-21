@@ -178,8 +178,8 @@ export default {
         this.simulateData.reduce((acc, cur) => acc + Math.pow(cur.q - avg, 2), 0) / this.m
       )
 
-      const maxDiff = avg + std * 4
-      const minDiff = avg - std * 4
+      const maxDiff = avg + Math.max(std * 4, 0.05)
+      const minDiff = avg - Math.max(std * 4, 0.05)
       const interval = this.interval
 
       const labels = Array.from(
@@ -214,8 +214,8 @@ export default {
         this.simulateData.reduce((acc, cur) => acc + Math.pow(cur.p - avg, 2), 0) / this.m
       )
 
-      const maxDiff = avg + std * 4
-      const minDiff = avg - std * 4
+      const maxDiff = avg + Math.max(std * 4, 0.05)
+      const minDiff = avg - Math.max(std * 4, 0.05)
       const interval = this.interval
 
       const labels = Array.from(
